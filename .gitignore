@@ -54,3 +54,10 @@ Thumbs.db
 # ==============================
 *.tmp
 *.temp
+# ==============================
+# Datos de prueba / pacientes
+# ==============================
+data/test/
+
+# Dataset alternativo no utilizado actualmente
+data/diabetes.csv
