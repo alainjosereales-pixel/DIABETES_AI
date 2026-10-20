@@ -348,7 +348,7 @@ scripts/migrate_sqlite_to_postgres.py
 - Se requieren análisis adicionales de sesgo.
 - Las probabilidades necesitan validación y calibración para una población de uso específica.
 - El sistema no sustituye una evaluación médica profesional.
-🛡️ Uso responsable
+ Uso responsable
 DIABETES_AI debe utilizarse como herramienta experimental de análisis y apoyo a la investigación.
 No debe utilizarse como único criterio para:
 - Diagnosticar diabetes.
@@ -356,7 +356,7 @@ No debe utilizarse como único criterio para:
 - Suspender tratamientos.
 - Tomar decisiones médicas sin supervisión profesional.
 Una evolución hacia un entorno clínico requeriría validación técnica, clínica, regulatoria, de seguridad y privacidad.
-🔮 Próximas mejoras
+ Próximas mejoras
 Seguridad
 - Autenticación.
 - Roles y permisos.
@@ -381,11 +381,11 @@ Datos
 - Importación CSV/Excel con reportes de errores.
 - Trazabilidad.
 - Gestión de datos faltantes.
-👨‍💻 Autor
+ Autor
 Alain Reales
 Ingeniería de Sistemas
 Proyecto de investigación y desarrollo en Inteligencia Artificial aplicada a la estimación de riesgo de diabetes.
-📌 Estado
+ Estado
 Versión: 1.0.0
 Estado: Research Prototype
 
