@@ -1,0 +1,10 @@
+# DIABETES_AI - Dependencias de desarrollo e investigación
+
+# Jupyter
+jupyter==1.1.1
+jupyterlab==4.6.4
+notebook==7.6.3
+ipykernel==7.4.0
+
+# Análisis adicional
+scipy==1.18.1

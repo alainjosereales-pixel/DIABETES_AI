@@ -1,0 +1,6 @@
+Nombre,Documento,Sexo,FechaNacimiento,Pregnancies,Glucose,BloodPressure,SkinThickness,Insulin,BMI,DiabetesPedigreeFunction,Age
+Paciente Demo 1,100000001,F,1996-05-20,2,120,70,20,79,25,0.5,30
+Paciente Demo 2,100000002,F,1976-03-10,3,148,72,35,0,33.6,0.627,50
+Paciente Demo 3,100000003,F,1995-08-15,1,85,66,29,0,26.6,0.351,31
+Paciente Demo 4,100000004,F,1981-11-22,4,180,90,30,0,42,1.2,45
+Paciente Demo 5,100000005,F,1996-01-12,2,110,70,20,79,25,0.5,30

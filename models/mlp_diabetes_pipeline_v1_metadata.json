@@ -1,0 +1,45 @@
+{
+    "model_name": "MLP Diabetes Prediction",
+    "version": "1.0.0",
+    "model_type": "MLPClassifier",
+    "task": "binary_classification",
+    "target": "Outcome",
+    "features": [
+        "Pregnancies",
+        "Glucose",
+        "BloodPressure",
+        "SkinThickness",
+        "Insulin",
+        "BMI",
+        "DiabetesPedigreeFunction",
+        "Age"
+    ],
+    "hyperparameters": {
+        "model__activation": "relu",
+        "model__alpha": 0.001,
+        "model__hidden_layer_sizes": [
+            32,
+            16
+        ],
+        "model__learning_rate_init": 0.01
+    },
+    "training_dataset": "Pima Indians Diabetes Database",
+    "training_rows": 614,
+    "test_rows": 154,
+    "test_metrics": {
+        "accuracy": 0.7403,
+        "precision": 0.6522,
+        "recall": 0.5556,
+        "f1": 0.6,
+        "roc_auc": 0.8161,
+        "brier_score": 0.17
+    },
+    "validation_roc_auc": 0.8507,
+    "threshold_analysis": {
+        "candidate_threshold": 0.45,
+        "selection_metric": "F1",
+        "selection_dataset": "validation"
+    },
+    "created_at": "2026-10-06T08:42:26.238705",
+    "status": "research_prototype"
+}

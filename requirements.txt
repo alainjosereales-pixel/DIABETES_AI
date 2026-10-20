@@ -1,0 +1,22 @@
+# DIABETES_AI - Dependencias principales
+
+# API y backend
+fastapi==0.142.2
+uvicorn==0.54.0
+sqlalchemy==2.1.1
+psycopg==3.3.6
+pydantic==2.13.5
+python-dotenv==1.2.4
+python-multipart==0.0.32
+
+# Machine Learning y procesamiento
+pandas==3.0.6
+numpy==2.5.3
+scikit-learn==1.9.1
+joblib==1.6.0
+
+# Análisis y visualización
+matplotlib==3.11.2
+seaborn==0.13.2
+openpyxl==3.1.5
+shap==0.52.0

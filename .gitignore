@@ -1,0 +1,56 @@
+# ==============================
+# Python
+# ==============================
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+
+# Entorno virtual
+venv/
+.venv/
+env/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# ==============================
+# Variables de entorno
+# ==============================
+.env
+.env.*
+!.env.example
+
+# ==============================
+# Bases de datos locales
+# ==============================
+*.db
+*.sqlite
+*.sqlite3
+
+# ==============================
+# Frontend
+# ==============================
+dashboard/node_modules/
+dashboard/dist/
+dashboard/.vite/
+
+# ==============================
+# Sistema / IDE
+# ==============================
+.vscode/
+.idea/
+*.swp
+.DS_Store
+Thumbs.db
+
+# ==============================
+# Logs
+# ==============================
+*.log
+
+# ==============================
+# Archivos temporales
+# ==============================
+*.tmp
+*.temp
