@@ -11,6 +11,7 @@ import {
   Layers3,
   FlaskConical,
 } from "lucide-react";
+import { API_URL } from "../services/api";
 
 interface ModelInfo {
   model_name?: string;
@@ -43,7 +44,7 @@ export default function Model() {
         setError("");
 
         const response = await fetch(
-          "http://127.0.0.1:8000/model"
+          `${API_URL}/model`
         );
 
         if (!response.ok) {

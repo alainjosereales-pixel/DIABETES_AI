@@ -12,7 +12,7 @@ import {
   AlertTriangle,
   TrendingUp,
 } from "lucide-react";
-
+import { API_URL } from "../services/api";
 import { Button } from "@/components/ui/button";
 
 interface Prediction {
@@ -60,7 +60,7 @@ export default function PatientDetail() {
         setError("");
 
         const response = await fetch(
-          `http://127.0.0.1:8000/patients/${id}`
+  `${API_URL}/predict/batch`,
         );
 
         if (!response.ok) {

@@ -10,7 +10,7 @@ import {
   Brain,
   User,
 } from "lucide-react";
-
+import { API_URL } from "../services/api";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
@@ -48,7 +48,7 @@ export default function History() {
         setError("");
 
         const response = await fetch(
-          "http://127.0.0.1:8000/predictions"
+          `${API_URL}/predictions/history`
         );
 
         if (!response.ok) {

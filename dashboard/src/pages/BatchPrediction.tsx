@@ -14,6 +14,7 @@ import {
 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
+import { API_URL } from "../services/api";
 
 interface PredictionResult {
   [key: string]: string | number | null | undefined;
@@ -96,7 +97,7 @@ export default function BatchPrediction() {
       formData.append("file", file);
 
       const response = await fetch(
-        "http://127.0.0.1:8000/predict/batch",
+  `${API_URL}/predict/batch`,
         {
           method: "POST",
           body: formData,
@@ -161,7 +162,7 @@ export default function BatchPrediction() {
       }));
 
       const response = await fetch(
-        "http://127.0.0.1:8000/patients/batch",
+  `${API_URL}/predict/batch`,
         {
           method: "POST",
           headers: {

@@ -5,8 +5,8 @@ import { Search, UserPlus, Eye, Users } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { API_URL } from "../services/api";
 
-const API_URL = "http://127.0.0.1:8000";
 
 interface Patient {
   patient_id: number;
