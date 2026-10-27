@@ -1,3 +1,4 @@
+
 import os
 
 from sqlalchemy import create_engine
@@ -9,7 +10,19 @@ load_dotenv()
 DATABASE_URL = os.getenv("DATABASE_URL")
 
 if not DATABASE_URL:
-    raise RuntimeError("No se encontró DATABASE_URL en el archivo .env")
+    raise RuntimeError(
+        "No se encontró DATABASE_URL en las variables de entorno"
+    )
+
+# Compatibilidad con URLs PostgreSQL de Render y SQLAlchemy.
+if DATABASE_URL.startswith("postgres://"):
+    DATABASE_URL = DATABASE_URL.replace(
+        "postgres://", "postgresql+psycopg://", 1
+    )
+elif DATABASE_URL.startswith("postgresql://"):
+    DATABASE_URL = DATABASE_URL.replace(
+        "postgresql://", "postgresql+psycopg://", 1
+    )
 
 engine = create_engine(
     DATABASE_URL,
