@@ -320,7 +320,6 @@ async def predict_batch(file: UploadFile = File(...)):
         X[column] = pd.to_numeric(X[column], errors="coerce")
 
     # Rechazar datos vacíos, no numéricos o infinitos
-    import numpy as np
 
     if not np.isfinite(X.to_numpy(dtype=float)).all():
         raise HTTPException(
