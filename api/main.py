@@ -16,6 +16,7 @@ from typing import List, Optional
 
 import joblib
 import pandas as pd
+import numpy as np
 
 import os
 
