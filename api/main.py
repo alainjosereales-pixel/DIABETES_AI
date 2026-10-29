@@ -19,6 +19,8 @@ import pandas as pd
 
 import os
 
+THRESHOLD = 0.45
+
 if os.getenv("CREATE_TABLES", "true").lower() == "true":
     Base.metadata.create_all(bind=engine)
 
@@ -223,39 +225,30 @@ def get_model():
 
 @app.post("/predict")
 def predict(patient: PatientData):
-
     try:
+        # Convertir los datos del paciente en un DataFrame
+        data = pd.DataFrame([patient.model_dump()])
 
-        data = pd.DataFrame(
-            [patient.model_dump()]
-        )
+        # Obtener la puntuación estimada para la clase positiva
+        probability = float(model.predict_proba(data)[0, 1])
 
-        probability = float(
-            model.predict_proba(data)[0, 1]
-        )
-
-        prediction = int(
-            probability >= 0.50
-        )
+        # Aplicar el umbral definido para el proyecto
+        prediction = int(probability >= THRESHOLD)
 
         return {
             "prediction": prediction,
             "probability": round(probability, 4),
-            "percentage": round(
-                probability * 100,
-                2
-            ),
+            "percentage": round(probability * 100, 2),
+            "threshold": THRESHOLD,
             "model_version": "1.0.0",
             "status": "research_prototype"
         }
 
     except Exception as e:
-
         raise HTTPException(
             status_code=500,
             detail=f"Error durante la predicción: {str(e)}"
         )
-
 
 # ============================================================
 # PREDICCIÓN MASIVA — CSV
@@ -263,7 +256,6 @@ def predict(patient: PatientData):
 
 @app.post("/predict/batch")
 async def predict_batch(file: UploadFile = File(...)):
-    import pandas as pd
     from io import BytesIO
 
     filename = file.filename or ""
@@ -300,9 +292,8 @@ async def predict_batch(file: UploadFile = File(...)):
     ]
 
     missing_columns = [
-        column
-        for column in required_features
-        if column not in df.columns
+        col for col in required_features
+        if col not in df.columns
     ]
 
     if missing_columns:
@@ -315,70 +306,67 @@ async def predict_batch(file: UploadFile = File(...)):
             }
         )
 
-    # Seleccionar únicamente las variables utilizadas por el modelo
+    if df.empty:
+        raise HTTPException(
+            status_code=400,
+            detail="El archivo no contiene registros."
+        )
+
+    # Seleccionar y convertir las variables del modelo
     X = df[required_features].copy()
 
-    # Convertir a valores numéricos
     for column in required_features:
         X[column] = pd.to_numeric(X[column], errors="coerce")
 
-    # Verificar valores inválidos
-    if X.isnull().any().any():
-        invalid_columns = X.columns[X.isnull().any()].tolist()
+    # Rechazar datos vacíos, no numéricos o infinitos
+    import numpy as np
 
+    if not np.isfinite(X.to_numpy(dtype=float)).all():
         raise HTTPException(
             status_code=400,
             detail={
-                "mensaje": "El archivo contiene valores inválidos o vacíos.",
-                "columnas": invalid_columns
+                "mensaje": "Hay valores vacíos, inválidos o infinitos.",
+                "columnas": X.columns[
+                    ~np.isfinite(X.to_numpy(dtype=float)).all(axis=0)
+                ].tolist()
             }
         )
 
-    # Predicciones
-    predictions = model.predict(X)
+    # Obtener puntuaciones y aplicar el mismo umbral
     probabilities = model.predict_proba(X)[:, 1]
+    predictions = (probabilities >= THRESHOLD).astype(int)
 
     results = []
 
-    for index, row in df.iterrows():
-
+    for i, (_, row) in enumerate(df.iterrows()):
         result = {}
 
-        # Conservar columnas originales
+        # Conservar los datos originales del archivo
         for column in df.columns:
             value = row[column]
+            result[column] = None if pd.isna(value) else value
 
-            if pd.isna(value):
-                value = None
-
-            result[column] = value
-
-        result["prediction"] = int(predictions[index])
-        result["probability"] = float(probabilities[index])
-        result["percentage"] = round(float(probabilities[index]) * 100, 2)
+        result["prediction"] = int(predictions[i])
+        result["probability"] = round(float(probabilities[i]), 4)
+        result["percentage"] = round(float(probabilities[i]) * 100, 2)
+        result["threshold"] = THRESHOLD
 
         results.append(result)
 
     total = len(results)
-
-    positive = sum(
-        1 for result in results
-        if result["prediction"] == 1
-    )
-
+    positive = int(predictions.sum())
     negative = total - positive
 
-    average_probability = (
-        sum(result["percentage"] for result in results) / total
-        if total > 0
-        else 0
-    )
+    average_probability = float(probabilities.mean() * 100)
 
     return {
         "total": total,
         "positive": positive,
         "negative": negative,
         "average_probability": round(average_probability, 2),
+        "threshold": THRESHOLD,
+        "model_version": "1.0.0",
+        "status": "research_prototype",
         "results": results
     }
     
